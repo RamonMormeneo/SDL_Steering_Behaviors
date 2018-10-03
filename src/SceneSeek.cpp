@@ -1,8 +1,9 @@
-#include "SceneKinematicArrive.h"
+
+#include "SceneSeek.h"
 
 using namespace std;
 
-SceneKinematicArrive::SceneKinematicArrive()
+SceneSeek::SceneSeek()
 {
 	Agent *agent = new Agent;
 	agent->setPosition(Vector2D(640, 360));
@@ -10,10 +11,9 @@ SceneKinematicArrive::SceneKinematicArrive()
 	agent->loadSpriteTexture("../res/soldier.png", 4);
 	agents.push_back(agent);
 	target = Vector2D(640, 360);
-	slowingRadius = 30.0f;
 }
 
-SceneKinematicArrive::~SceneKinematicArrive()
+SceneSeek::~SceneSeek()
 {
 	for (int i = 0; i < (int)agents.size(); i++)
 	{
@@ -21,11 +21,10 @@ SceneKinematicArrive::~SceneKinematicArrive()
 	}
 }
 
-void SceneKinematicArrive::update(float dtime, SDL_Event *event)
+void SceneSeek::update(float dtime, SDL_Event *event)
 {
 	/* Keyboard & Mouse events */
-	switch (event->type)
-	{
+	switch (event->type) {
 	case SDL_MOUSEMOTION:
 	case SDL_MOUSEBUTTONDOWN:
 		if (event->button.button == SDL_BUTTON_LEFT)
@@ -37,27 +36,17 @@ void SceneKinematicArrive::update(float dtime, SDL_Event *event)
 	default:
 		break;
 	}
-	Vector2D steering_force = agents[0]->Behavior()->KinematicFlee(agents[0], agents[0]->getTarget(), dtime);
-	distanceToTarget = abs(agents[0]->getPosition() - target[0]) + abs(agent->position[1] - target[1]);
-
-		if (distanceToTarget <= slowingRadius)
-		{
-			factorSlow = distanceToTarget / slowingRadius;
-
-			steering_force[0] *= factorSlow;
-			steering_force[0] *= factorSlow;
-		}
-
+	Vector2D steering_force = agents[0]->Behavior()->Seek(agents[0], agents[0]->getTarget(), dtime);
 	agents[0]->update(steering_force, dtime, event);
 }
 
-void SceneKinematicArrive::draw()
+void SceneSeek::draw()
 {
 	draw_circle(TheApp::Instance()->getRenderer(), (int)target.x, (int)target.y, 15, 255, 0, 0, 255);
 	agents[0]->draw();
 }
 
-const char* SceneKinematicArrive::getTitle()
+const char* SceneSeek::getTitle()
 {
-	return "SDL Steering Behaviors :: KinematicArrive Demo";
+	return "SDL Steering Behaviors :: Seek Demo";
 }

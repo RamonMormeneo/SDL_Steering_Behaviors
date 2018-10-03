@@ -15,10 +15,15 @@ public:
 	Vector2D KinematicFlee(Agent *agent, Agent *target, float dtime);
 
 	/* Add here your own Steering Behavior functions declarations */
+	//////////////////////////////////////////////////////////////////////////////////SEEK
 	Vector2D Seek(Agent *agent, Vector2D target, float dtime);
 	Vector2D Seek(Agent *agent, Agent *target, float dtime);
+	//////////////////////////////////////////////////////////////////////////////////FLEE
 	Vector2D Flee(Agent *agent, Vector2D target, float dtime);
 	Vector2D Flee(Agent *agent, Agent *target, float dtime);
+	//////////////////////////////////////////////////////////////////////////////////ARRIVE
+	Vector2D Arrive(Agent *agent, Vector2D target, float dtime, float factorSlow);
+	Vector2D Arrive(Agent *agent, Agent *target, float dtime, float factorSlow);
 	//etc...
 
 };
